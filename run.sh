@@ -6,7 +6,7 @@ main="$dir/main.py"
 function run_test {
     rm -rf output
     inputfile="$dir/verify/$1"
-    outputfile="$(dirname $inputfile)/$(basename $1 .pse).$2.ref"
+    outputfile="$inputfile.$2.ref"
     echo $outputfile
     echo Running $inputfile
     python3 $main $2 3 $inputfile > output
