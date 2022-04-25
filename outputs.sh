@@ -3,7 +3,7 @@
 rm -rf "solutions"
 mkdir "solutions"
 
-for file in inputs/*.c 
+for file in inputs/*.{c,S} 
 do
     if ! echo $file | grep lib > /dev/null;
     then
