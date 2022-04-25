@@ -1,32 +1,15 @@
 #!/bin/bash
 
-dir="$(dirname $0)"
-main="$dir/main.py"
+elf_file=$1
+outputs="outputs"
 
-function run_test {
-    rm -rf output
-    inputfile="$dir/verify/$1"
-    outputfile="$inputfile.$2.ref"
-    echo $outputfile
-    echo Running $inputfile
-    python3 $main $2 3 $inputfile > output
-    ERROR=0
-    if ! diff output $outputfile -b --side-by-side > error;
-    then
-        echo "Your output                                           | Correct output"
-        cat error
-        ERROR=1
-    else
-        echo Correct
-    fi
-    rm -rf output
-    rm -rf error
-    return $ERROR
-}
-
-if [ $# -lt 1 ];
+if [ $# -ge 2 ];
 then
-    echo "Not enough parameters"
-else
-    run_test $1 $2
-fi 
+    outputs=$2
+fi
+
+mkdir -p "$outputs"
+
+timeout 3 rusty-loader "inputs/$elf_file" > "$outputs/$elf_file.out" 2> "/tmp/$elf_file.segments"
+echo $? > "$outputs/$elf_file.code"
+cat "/tmp/$elf_file.segments" | tr -s '\t' ' ' > "$outputs/$elf_file.segments"

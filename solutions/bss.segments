@@ -1,0 +1,6 @@
+Segments
+# address size offset length flags
+0 0x8048000 960 0x0 960 r-x
+1 0x804a000 4096 0x0 0 rw-
+Entry point 8048120
+Base address 8048000
